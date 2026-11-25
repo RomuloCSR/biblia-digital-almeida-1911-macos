@@ -17,7 +17,7 @@ Texto bíblico baseado na edição **Almeida 1911 (Domínio Público)**, com atu
 2. Cole o comando abaixo e aperte **Enter**:
 
 ```bash
-curl -sL [https://raw.githubusercontent.com/RomuloCSR/biblia-digital-almeida-1911-macos/main/instalar.sh](https://raw.githubusercontent.com/RomuloCSR/biblia-digital-almeida-1911-macos/main/instalar.sh) | bash
+curl -sL https://raw.githubusercontent.com/RomuloCSR/biblia-digital-almeida-1911-macos/main/instalar.sh | bash
 ```
 
 3. Depois de instalado, sempre que quiser ler a Bíblia, basta abrir o **Terminal** e digitar:
