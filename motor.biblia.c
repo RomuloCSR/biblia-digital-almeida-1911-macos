@@ -1649,9 +1649,9 @@ int main(void) {
         imprimir_linha_centralizada("Atualização Ortográfica e Gramatical realizada em 11/2026", LARGURA_PAGINA);
         printf("%s%s", COR_RESET, COR_DIM);
 #ifdef __APPLE__
-        imprimir_linha_centralizada("Motor C (Universal Intel/Apple Silicon) — macOS", LARGURA_PAGINA);
+        imprimir_linha_centralizada("Motor C Universal — macOS", LARGURA_PAGINA);
 #else
-        imprimir_linha_centralizada("Motor C Multiplataforma — Linux / Termux", LARGURA_PAGINA);
+        imprimir_linha_centralizada("(Intel/Apple Silicon)", LARGURA_PAGINA);
 #endif
         imprimir_linha_centralizada("Autor: Romulo CSR", LARGURA_PAGINA);
         imprimir_linha_centralizada("Download free: github.com/RomuloCSR", LARGURA_PAGINA);

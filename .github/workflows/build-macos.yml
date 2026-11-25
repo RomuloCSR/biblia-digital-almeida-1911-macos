@@ -1,1 +1,40 @@
+name: Build macOS Universal
 
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-macos:
+    runs-on: macos-latest
+
+    steps:
+      - name: Baixar código-fonte e capítulos
+        uses: actions/checkout@v4
+
+      - name: Compilar binário Universal (Intel x86_64 + Apple Silicon arm64)
+        run: |
+          clang -O2 -Wall -Wextra -arch x86_64 -arch arm64 motor.biblia.c -o motor.biblia
+          strip motor.biblia
+          lipo -info motor.biblia
+
+      - name: Empacotar distribuição macOS
+        run: |
+          mkdir -p dist/biblia-1911
+          cp motor.biblia dist/biblia-1911/
+          cp instalar.sh dist/biblia-1911/
+          cp -r [0-6][0-9]-* dist/biblia-1911/
+          cd dist
+          zip -rq biblia-digital-almeida-1911-macos.zip biblia-1911
+
+      - name: Publicar Release no GitHub
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0-macos
+          name: Bíblia Digital Almeida 1911 — macOS (Universal)
+          body: Binário nativo Universal (Apple Silicon M1/M2/M3/M4 e Intel) + 66 livros atualizados (Lote 1 - 11/2026).
+          files: dist/biblia-digital-almeida-1911-macos.zip
