@@ -34,7 +34,7 @@ jobs:
       - name: Publicar Release no GitHub
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v1.0-macos
-          name: Bíblia Digital Almeida 1911 — macOS (Universal)
-          body: Binário nativo Universal (Apple Silicon M1/M2/M3/M4 e Intel) + 66 livros atualizados (Lote 1 - 11/2026).
+          tag_name: v1.1-macos
+          name: Bíblia Digital Almeida ARC-1911 v1.1 — macOS (Edição 11/2026)
+          body: Revisão ortográfica do motor (Lote 3). O texto base Almeida 1911 não foi alterado. Binário nativo Universal (Apple Silicon M1/M2/M3/M4 e Intel) + 66 livros.
           files: dist/biblia-digital-almeida-1911-macos.zip
