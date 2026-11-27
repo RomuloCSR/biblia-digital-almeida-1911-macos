@@ -2,7 +2,7 @@
 set -e
 
 DIR_APP="$HOME/biblia-1911"
-ZIP_URL="[https://github.com/RomuloCSR/biblia-digital-almeida-1911-macos/releases/latest/download/biblia-digital-almeida-1911-macos.zip](https://github.com/RomuloCSR/biblia-digital-almeida-1911-macos/releases/latest/download/biblia-digital-almeida-1911-macos.zip)"
+ZIP_URL="https://github.com/RomuloCSR/biblia-digital-almeida-1911-macos/releases/latest/download/biblia-digital-almeida-1911-macos.zip"
 
 echo "========================================================"
 echo "Instalando/Atualizando a Bíblia Almeida 1911 (macOS)..."
