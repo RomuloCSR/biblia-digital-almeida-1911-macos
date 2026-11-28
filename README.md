@@ -29,7 +29,7 @@ biblia
 ### Opção 2: Baixar manualmente pela aba Releases
 1. Na lateral direita desta página, clique em **Releases** e baixe o arquivo **`biblia-digital-almeida-1911-macos.zip`**.
 2. Extraia o arquivo `.zip` em qualquer pasta do seu Mac (por exemplo, em `Documentos`).
-3. Abra o **Terminal** dentro da pasta extraída e execute `./motor.biblia` *(ou recompile localmente com `clang -O2 motor.biblia.c -o motor.biblia`, caso possua as ferramentas de linha de comando instaladas)*.
+3. Abra o **Terminal** dentro da pasta extraída e execute `./motor.biblia` *(ou recompile localmente com `clang -O2 terminal.c kernel/biblia_kernel.c -o motor.biblia`, caso possua as ferramentas de linha de comando instaladas)*.
 
 ---
 
@@ -42,4 +42,4 @@ biblia
   1. Clique com o **botão direito** (ou `Control + clique`) sobre o arquivo **`motor.biblia`** e escolha **Abrir**.
   2. Na janela de confirmação que aparecer, clique novamente em **Abrir** (isso precisa ser feito apenas uma vez).
   3. *(Alternativa pelo Terminal, dentro da pasta extraída: `xattr -d com.apple.quarantine motor.biblia`)*
-- **Transparência total (Código Aberto):** Todo o código-fonte deste aplicativo (`motor.biblia.c`), o script de instalação (`instalar.sh`) e os textos dos 66 livros estão abertos e visíveis nesta página. Qualquer técnico ou programador pode inspecionar o código e confirmar que não há coleta de dados, rastreamento ou arquivos maliciosos.
+- **Transparência total (Código Aberto):** Todo o código-fonte deste aplicativo (`terminal.c` e a pasta `kernel`), o script de instalação (`instalar.sh`) e os textos dos 66 livros estão abertos e visíveis nesta página. Qualquer técnico ou programador pode inspecionar o código e confirmar que não há coleta de dados, rastreamento ou arquivos maliciosos.
