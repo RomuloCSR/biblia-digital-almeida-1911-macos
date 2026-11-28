@@ -37,13 +37,19 @@ biblia
 
 ## Este aplicativo é seguro? (Sobre alertas de segurança do macOS)
 
-**Sim, 100% seguro.** Este é um projeto independente, gratuito e sem fins lucrativos, publicado em código aberto no **GitHub** (plataforma de referência mundial utilizada por desenvolvedores).
+Este é um projeto independente, gratuito e sem fins lucrativos, publicado em código aberto no **GitHub**.
 
-- **Por que o macOS exibe o aviso *"não pode ser aberto porque é de um desenvolvedor não identificado"*?** Sistemas operacionais modernos (macOS, Windows, Android e algumas distribuições Linux) emitem avisos preventivos do **Gatekeeper** para qualquer programa que não possua um certificado comercial pago da Apple nem esteja distribuído pela App Store.
+- **O que você precisa saber:**
+  - O código é aberto: o código-fonte (`terminal.c` e a pasta `kernel`), o instalador (`instalar.sh`) e os textos dos 66 livros estão nesta página, e qualquer pessoa pode conferir.
+  - Funciona sem internet (só o download precisa de internet).
+  - Não coleta nenhum dado seu.
+  - O programa **não é assinado nem verificado (notarizado) pela Apple**. É por isso que o macOS mostra um aviso na primeira vez.
+- **Por que o macOS exibe o aviso *"não pode ser aberto porque é de um desenvolvedor não identificado"*?** O **Gatekeeper** do macOS avisa sobre todo programa que não tem a assinatura paga da Apple nem vem da App Store.
 - **Como liberar na primeira abertura (se baixado manualmente pelo Finder):**
   1. Tente abrir o **`motor.biblia`** uma vez. O macOS vai mostrar o aviso e bloquear.
-  2. Abra **Ajustes do Sistema** > **Privacidade e Segurança**.
-  3. Role a tela até o aviso sobre o `motor.biblia` e clique em **Abrir Mesmo Assim**. Confirme com sua senha, se for pedida (isso precisa ser feito apenas uma vez).
+  2. Abra as configurações do Mac:
+     - **macOS 11 e 12:** menu Apple > **Preferências do Sistema** > **Segurança e Privacidade** > aba **Geral**.
+     - **macOS 13 ou mais novo:** menu Apple > **Ajustes do Sistema** > **Privacidade e Segurança** (role a tela até o fim).
+  3. Ao lado do aviso sobre o `motor.biblia`, clique em **Abrir Mesmo Assim**. Confirme com sua senha, se for pedida (isso precisa ser feito apenas uma vez).
   4. *(No macOS 15 Sequoia ou mais novo, o atalho antigo de `Control + clique` > **Abrir** não libera mais o programa. Use os passos acima.)*
   5. *(Alternativa pelo Terminal, dentro da pasta extraída: `xattr -d com.apple.quarantine motor.biblia`)*
-- **Transparência total (Código Aberto):** Todo o código-fonte deste aplicativo (`terminal.c` e a pasta `kernel`), o script de instalação (`instalar.sh`) e os textos dos 66 livros estão abertos e visíveis nesta página. Qualquer técnico ou programador pode inspecionar o código e confirmar que não há coleta de dados, rastreamento ou arquivos maliciosos.

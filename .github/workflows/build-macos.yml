@@ -1,9 +1,28 @@
 name: Build macOS Universal
 
+# Quando roda (revisão de 28/11/2026):
+# Antes rodava em todo push para main e reaproveitava sempre a mesma tag,
+# trocando o ZIP de uma release já publicada. Agora só publica:
+#  - ao enviar uma tag no formato v<versão>-macos (ex.: v1.3-macos), ou
+#  - ao clicar em "Run workflow" na aba Actions (só a partir da main).
+#
+# Como o dono publica uma versão nova pelo site do GitHub:
+#  1. Junte (merge) o pull request na main.
+#  2. Aba Actions > "Build macOS Universal" > botão "Run workflow".
+#  3. Deixe "Use workflow from: main", confira a tag (ex.: v1.3-macos) e
+#     clique em "Run workflow". O workflow compila, cria a tag e a release.
+#  NÃO crie a release à mão em Releases > "Draft a new release": o workflow
+#  já cria. Se a tag já existir, o workflow para com erro, sem mexer na
+#  release publicada.
 on:
   push:
-    branches: [ main ]
+    tags: [ 'v*-macos' ]
   workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag da versão (formato v<versão>-macos)'
+        required: true
+        default: 'v1.3-macos'
 
 permissions:
   contents: write
@@ -15,6 +34,37 @@ jobs:
     steps:
       - name: Baixar código-fonte e capítulos
         uses: actions/checkout@v4
+
+      # O que: define a tag e o nome da release a partir da tag.
+      # Por que: cada versão tem a sua tag; uma tag já publicada nunca é
+      # reaproveitada pelo botão "Run workflow" (28/11/2026).
+      - name: Definir tag e nome da release
+        id: versao
+        env:
+          TAG_MANUAL: ${{ inputs.tag }}
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
+            if [ "$GITHUB_REF" != "refs/heads/main" ]; then
+              echo "ERRO: rode o workflow a partir da main (atual: $GITHUB_REF)."
+              exit 1
+            fi
+            TAG="$TAG_MANUAL"
+          else
+            TAG="$GITHUB_REF_NAME"
+          fi
+          if ! printf '%s\n' "$TAG" | grep -Eq '^v[0-9]+(\.[0-9]+)*-macos$'; then
+            echo "ERRO: tag '$TAG' fora do formato v<versão>-macos (ex.: v1.3-macos)."
+            exit 1
+          fi
+          if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ] \
+             && git ls-remote --exit-code --tags origin "refs/tags/$TAG" > /dev/null; then
+            echo "ERRO: a tag $TAG já existe. Use uma versão nova (ex.: v1.4-macos)."
+            exit 1
+          fi
+          VERSAO="${TAG%-macos}"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "nome=Bíblia Digital Almeida ARC-1911 $VERSAO — macOS (Edição 11/2026)" >> "$GITHUB_OUTPUT"
+          echo "Tag: $TAG"
 
       - name: Compilar binário Universal (Intel x86_64 + Apple Silicon arm64)
         run: |
@@ -43,11 +93,17 @@ jobs:
           cd dist
           zip -rq biblia-digital-almeida-1911-macos.zip biblia-1911
 
+      # O que: publica a release da tag definida acima, apontando para o
+      # commit compilado, e a marca como a mais recente.
+      # Por que: o instalador baixa de releases/latest. Se já houver uma
+      # release com essa tag, a action atualiza a mesma (não duplica).
       - name: Publicar Release no GitHub
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v1.3-macos
-          name: Bíblia Digital Almeida ARC-1911 v1.3 — macOS (Edição 11/2026)
+          tag_name: ${{ steps.versao.outputs.tag }}
+          target_commitish: ${{ github.sha }}
+          make_latest: true
+          name: ${{ steps.versao.outputs.nome }}
           body: |
             Bíblia Digital Almeida ARC-1911 para macOS (Intel e Apple Silicon M1/M2/M3/M4), 100% offline.
 
