@@ -18,7 +18,7 @@ jobs:
 
       - name: Compilar binário Universal (Intel x86_64 + Apple Silicon arm64)
         run: |
-          clang -O2 -Wall -Wextra -arch x86_64 -arch arm64 motor.biblia.c -o motor.biblia
+          clang -O2 -Wall -Wextra -arch x86_64 -arch arm64 terminal.c kernel/biblia_kernel.c -o motor.biblia
           strip motor.biblia
           lipo -info motor.biblia
 
@@ -34,7 +34,23 @@ jobs:
       - name: Publicar Release no GitHub
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v1.1-macos
-          name: Bíblia Digital Almeida ARC-1911 v1.1 — macOS (Edição 11/2026)
-          body: Revisão ortográfica do motor (Lote 3). O texto base Almeida 1911 não foi alterado. Binário nativo Universal (Apple Silicon M1/M2/M3/M4 e Intel) + 66 livros.
+          tag_name: v1.2-macos
+          name: Bíblia Digital Almeida ARC-1911 v1.2 -- macOS (Edição 11/2026)
+          body: |
+            Bíblia Digital Almeida ARC-1911 para macOS (Intel e Apple Silicon M1/M2/M3/M4), 100% offline.
+
+            Novidades desta versão:
+            - Novo kernel da Bíblia: o mesmo texto, cerca de 12 vezes mais rápido.
+            - Ortografia atualizada para o Português do Brasil, sem mudar o sentido do texto.
+            - 1.158 nomes próprios revisados.
+            - Todos os versículos revisados, fiéis à Almeida ARC-1911.
+            - Correções de segurança.
+            - Doação via PIX no menu principal.
+
+            Como usar:
+            Abra o Terminal no Mac, cole o comando abaixo e aperte Enter:
+            curl -sL https://raw.githubusercontent.com/RomuloCSR/biblia-digital-almeida-1911-macos/main/instalar.sh | bash
+            Depois, para ler a Bíblia, abra o Terminal e digite: biblia
+
+            Doação espontânea para a obra via PIX 21980934118
           files: dist/biblia-digital-almeida-1911-macos.zip
