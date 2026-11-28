@@ -5,6 +5,7 @@ Texto bíblico baseado na edição **Almeida 1911 (Domínio Público)**, com atu
 > **Nota editorial:** O conteúdo está em processo contínuo de atualização e pode eventualmente apresentar pequenas falhas ortográficas ou gramaticais. Colabore nos enviando seu feedback pela aba **Issues** deste repositório. Obrigado!
 
 - **Objetivo:** Motor leve e rápido de navegação bíblica para macOS (Intel e Apple Silicon M1/M2/M3/M4), sem anúncios e 100% offline.
+- **Requisito:** macOS 11 Big Sur ou mais novo.
 - **Autor:** Romulo CSR ([github.com/RomuloCSR](https://github.com/RomuloCSR))
 - **Apoio espontâneo via PIX:** `21980934118`
 
@@ -17,10 +18,10 @@ Texto bíblico baseado na edição **Almeida 1911 (Domínio Público)**, com atu
 2. Cole o comando abaixo e aperte **Enter**:
 
 ```bash
-curl -sL https://raw.githubusercontent.com/RomuloCSR/biblia-digital-almeida-1911-macos/main/instalar.sh | bash
+curl -fsSL https://raw.githubusercontent.com/RomuloCSR/biblia-digital-almeida-1911-macos/main/instalar.sh | bash
 ```
 
-3. Depois de instalado, sempre que quiser ler a Bíblia, basta abrir o **Terminal** e digitar:
+3. Depois de instalado, sempre que quiser ler a Bíblia, basta abrir uma **nova janela** do **Terminal** e digitar:
 
 ```bash
 biblia
@@ -29,7 +30,8 @@ biblia
 ### Opção 2: Baixar manualmente pela aba Releases
 1. Na lateral direita desta página, clique em **Releases** e baixe o arquivo **`biblia-digital-almeida-1911-macos.zip`**.
 2. Extraia o arquivo `.zip` em qualquer pasta do seu Mac (por exemplo, em `Documentos`).
-3. Abra o **Terminal** dentro da pasta extraída e execute `./motor.biblia` *(ou recompile localmente com `clang -O2 terminal.c kernel/biblia_kernel.c -o motor.biblia`, caso possua as ferramentas de linha de comando instaladas)*.
+3. Abra o **Terminal** dentro da pasta extraída e execute `./motor.biblia`.
+4. *(Opcional, para quem programa: o arquivo `.zip` não traz o código-fonte. O código-fonte está neste repositório, em `terminal.c` e na pasta `kernel`. Para compilar: `clang -O2 -mmacosx-version-min=11.0 terminal.c kernel/biblia_kernel.c -o motor.biblia`, com as ferramentas de linha de comando da Apple instaladas.)*
 
 ---
 
@@ -39,7 +41,9 @@ biblia
 
 - **Por que o macOS exibe o aviso *"não pode ser aberto porque é de um desenvolvedor não identificado"*?** Sistemas operacionais modernos (macOS, Windows, Android e algumas distribuições Linux) emitem avisos preventivos do **Gatekeeper** para qualquer programa que não possua um certificado comercial pago da Apple nem esteja distribuído pela App Store.
 - **Como liberar na primeira abertura (se baixado manualmente pelo Finder):**
-  1. Clique com o **botão direito** (ou `Control + clique`) sobre o arquivo **`motor.biblia`** e escolha **Abrir**.
-  2. Na janela de confirmação que aparecer, clique novamente em **Abrir** (isso precisa ser feito apenas uma vez).
-  3. *(Alternativa pelo Terminal, dentro da pasta extraída: `xattr -d com.apple.quarantine motor.biblia`)*
+  1. Tente abrir o **`motor.biblia`** uma vez. O macOS vai mostrar o aviso e bloquear.
+  2. Abra **Ajustes do Sistema** > **Privacidade e Segurança**.
+  3. Role a tela até o aviso sobre o `motor.biblia` e clique em **Abrir Mesmo Assim**. Confirme com sua senha, se for pedida (isso precisa ser feito apenas uma vez).
+  4. *(No macOS 15 Sequoia ou mais novo, o atalho antigo de `Control + clique` > **Abrir** não libera mais o programa. Use os passos acima.)*
+  5. *(Alternativa pelo Terminal, dentro da pasta extraída: `xattr -d com.apple.quarantine motor.biblia`)*
 - **Transparência total (Código Aberto):** Todo o código-fonte deste aplicativo (`terminal.c` e a pasta `kernel`), o script de instalação (`instalar.sh`) e os textos dos 66 livros estão abertos e visíveis nesta página. Qualquer técnico ou programador pode inspecionar o código e confirmar que não há coleta de dados, rastreamento ou arquivos maliciosos.

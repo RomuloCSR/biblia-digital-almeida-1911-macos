@@ -18,9 +18,21 @@ jobs:
 
       - name: Compilar binário Universal (Intel x86_64 + Apple Silicon arm64)
         run: |
-          clang -O2 -Wall -Wextra -arch x86_64 -arch arm64 terminal.c kernel/biblia_kernel.c -o motor.biblia
+          clang -O2 -Wall -Wextra -mmacosx-version-min=11.0 -arch x86_64 -arch arm64 terminal.c kernel/biblia_kernel.c -o motor.biblia
           strip motor.biblia
           lipo -info motor.biblia
+
+      - name: Conferir macOS mínimo (11.0) nas duas arquiteturas
+        run: |
+          otool -arch all -l motor.biblia | grep -A4 LC_BUILD_VERSION
+          for ARQ in x86_64 arm64; do
+            MINOS=$(otool -arch "$ARQ" -l motor.biblia | awk '/LC_BUILD_VERSION/{f=1} f && $1=="minos"{print $2; exit}')
+            echo "$ARQ: minos=$MINOS"
+            if [ "$MINOS" != "11.0" ]; then
+              echo "ERRO: $ARQ exige macOS $MINOS (esperado 11.0)."
+              exit 1
+            fi
+          done
 
       - name: Empacotar distribuição macOS
         run: |
@@ -34,23 +46,26 @@ jobs:
       - name: Publicar Release no GitHub
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v1.2-macos
-          name: Bíblia Digital Almeida ARC-1911 v1.2 -- macOS (Edição 11/2026)
+          tag_name: v1.3-macos
+          name: Bíblia Digital Almeida ARC-1911 v1.3 — macOS (Edição 11/2026)
           body: |
             Bíblia Digital Almeida ARC-1911 para macOS (Intel e Apple Silicon M1/M2/M3/M4), 100% offline.
 
-            Novidades desta versão:
+            Novidades da versão 1.3:
+            - Funciona no macOS 11 Big Sur ou mais novo, em Macs Intel e Apple Silicon.
+            - Instalador mais seguro: se o download falhar, a versão antiga é mantida.
+            - Passos atualizados para abrir o programa na primeira vez.
+
+            Continua com tudo da versão 1.2:
             - Novo kernel da Bíblia: o mesmo texto, cerca de 12 vezes mais rápido.
             - Ortografia atualizada para o Português do Brasil, sem mudar o sentido do texto.
             - 1.158 nomes próprios revisados.
             - Todos os versículos revisados, fiéis à Almeida ARC-1911.
-            - Correções de segurança.
-            - Doação via PIX no menu principal.
 
-            Como usar:
+            Como instalar:
             Abra o Terminal no Mac, cole o comando abaixo e aperte Enter:
-            curl -sL https://raw.githubusercontent.com/RomuloCSR/biblia-digital-almeida-1911-macos/main/instalar.sh | bash
-            Depois, para ler a Bíblia, abra o Terminal e digite: biblia
+            curl -fsSL https://raw.githubusercontent.com/RomuloCSR/biblia-digital-almeida-1911-macos/main/instalar.sh | bash
+            Depois, para ler a Bíblia, abra uma nova janela do Terminal e digite: biblia
 
             Doação espontânea para a obra via PIX 21980934118
           files: dist/biblia-digital-almeida-1911-macos.zip
